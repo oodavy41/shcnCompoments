@@ -3,14 +3,14 @@
   "version": "1.0.0",
   "description": "",
   "data": {
-    "widgetName": "arcgisMain",
+    "widgetName": "widgetName",
     "version": 0.1
   },
   "scripts": {
     "dev": "npm run development",
     "pub": "npm run production",
     "development": "cross-env NODE_ENV=development webpack-dev-server --config webpack.config.dev.js",
-    "production": "cross-env webpack --config webpack.config.production.js"
+    "production": "cross-env NODE_ENV=production webpack --config webpack.config.production.js"
   },
   "dependencies": {
     "@babel/polyfill": "^7.4.4",
