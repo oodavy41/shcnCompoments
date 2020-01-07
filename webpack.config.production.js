@@ -1,5 +1,6 @@
 const path = require("path");
 const package = require("./package.json");
+const ZipPlugin = require("zip-webpack-plugin");
 
 const { data } = package;
 
@@ -24,7 +25,10 @@ module.exports = {
         test: /\.js$/,
         exclude: /(node_modules|bower_components)/,
         use: {
-          loader: "babel-loader"
+          loader: "babel-loader",
+          options: {
+            presets: ["@babel/react"]
+          }
         }
       },
       {
