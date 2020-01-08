@@ -1,4 +1,4 @@
-import serivce from "./axiosSettings";
+import serivce from "./axioSettings";
 import * as R from "ramda";
 
 //自定义请求方式

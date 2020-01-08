@@ -21,6 +21,9 @@ module.exports = {
     filename: `${publicPathName}/${outPutPathName}/[name].js`
     // chunkFilename: "[name].min.js"
   },
+  resolve: {
+    extensions: [".js", "jsx"]
+  },
   externals: {
     react: "React",
     "react-dom": "ReactDOM"
