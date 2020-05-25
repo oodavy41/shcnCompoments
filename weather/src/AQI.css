@@ -1,0 +1,56 @@
+.AQI_main {
+  width: 100%;
+  height: 200px;
+  font-weight: normal;
+  font-stretch: normal;
+  line-height: 60px;
+  letter-spacing: 0px;
+  color: #ffffff;
+}
+
+.AQI_title {
+  font-size: 24px;
+  line-height: 26px;
+  margin-left: 14px;
+  height: 26px;
+}
+
+.AQI_subBoard {
+  text-align: center;
+  float: left;
+  margin: 0 10px;
+  padding: 0 10px;
+}
+
+.AQI_subtitle {
+  font-size: 18px;
+}
+
+.AQI_valueBoard {
+  font-family: Arial-BoldMT;
+  width: 108px;
+  height: 48px;
+  line-height: 48px;
+  font-size: 36px;
+  background-image: linear-gradient(0deg, rgba(0, 0, 0, 0) 0%, #034a68 100%);
+}
+.AQI_best {
+  color: #29bb1a;
+}
+.AQI_better {
+  color: #ff9600;
+}
+
+.AQI_bad {
+  color: #b94141;
+}
+.AQI_qualiy_bad {
+  font-size: 24px;
+}
+
+.AQI_ps {
+  width: 592px;
+  height: 14px;
+  text-align: center;
+  font-size: 14px;
+}

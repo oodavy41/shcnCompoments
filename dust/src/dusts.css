@@ -1,0 +1,61 @@
+.dust_main {
+  width: 100%;
+  height: 200px;
+  font-weight: normal;
+  font-stretch: normal;
+  line-height: 60px;
+  letter-spacing: 0px;
+  color: #ffffff;
+}
+.dust_board {
+  float: left;
+  width: 240px;
+  font-family: AdobeHeitiStd-Regular;
+  font-weight: normal;
+  font-stretch: normal;
+}
+.dust_subtitle {
+  width: 240px;
+  height: 17px;
+  margin-top: 20px;
+  font-size: 18px;
+  line-height: 19px;
+  text-align: center;
+  letter-spacing: 3px;
+}
+.dust_value {
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  margin: 10px 15px;
+  text-align: center;
+  line-height: 50px;
+  font-size: 24px;
+  border-radius: 25px;
+}
+.dust_good {
+  background-color: rgba(41, 187, 26, 0.2);
+  color: #29bb1a;
+}
+.dust_normal {
+  background-color: rgba(255, 150, 0, 0.2);
+  color: #ff9600;
+}
+.dust_bad {
+  background-color: rgba(185, 65, 65, 0.2);
+  color: #b94141;
+}
+.dust_title {
+  float: left;
+  width: 24px;
+  height: 150px;
+  margin: 0 20px 0 20px;
+  writing-mode: vertical-lr;
+  font-family: AdobeHeitiStd-Regular;
+  font-size: 24px;
+  font-weight: normal;
+  font-stretch: normal;
+  line-height: 19px;
+  letter-spacing: 5px;
+  color: #ffffff;
+}

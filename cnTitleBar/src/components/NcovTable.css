@@ -1,0 +1,35 @@
+.ncov-table {
+  z-index: 99999;
+  background-color: rgba(15,70,117,0.7);
+  position: absolute;
+  left:960px;
+  top:300px;
+  width:1920px;
+  height:640px;
+  padding:20px;
+  border-radius: 10px;
+}
+
+.ncov-table .ant-table-thead th{
+  background-color:rgba(28,99,163);
+  border:0;
+  color:#ffffff;
+}
+
+
+.ncov-table .ant-table td{
+  background-color:rgba(14,60,100);
+  border:0;
+  color:#ffffff;
+}
+
+.ncov-table .ant-pagination li {
+  background-color:rgba(28,99,163);
+  border:0
+}
+
+.ncov-table .ant-pagination a {
+  background-color:rgba(14,60,100);
+  border:0;
+  color:#ffffff;
+}

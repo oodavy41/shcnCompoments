@@ -1,0 +1,158 @@
+.alarmMain {
+  z-index: 999;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
+
+.alarmCounterMain {
+  position: absolute;
+  user-select: none;
+  padding: 5px;
+  width: 500px;
+  right: 850px;
+  top: 85px;
+  border-radius: 2px;
+  transition: all 0.2s linear;
+}
+
+.alarmList {
+  position: absolute;
+  top: 40px;
+  right: 5px;
+  width: 550px;
+  max-height: 500px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background-image: linear-gradient(-145deg, rgb(82, 18, 18), rgb(11, 36, 53));
+  border-style: ridge;
+  border-width: 1px 1px 0 0;
+  border-image: linear-gradient(-150deg, rgb(235, 92, 48), 8%, rgba(0, 0, 0, 0))
+    10;
+}
+
+.alarmMain ::-webkit-scrollbar {
+  width: 5px;
+  opacity: 0.2;
+  background-color: rgba(20, 63, 255, 0.2);
+}
+.alarmMain ::-webkit-scrollbar-thumb {
+  background-color: rgba(119, 152, 243, 0.2);
+  border-radius: 5px;
+}
+
+.alarmTitle {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 550px;
+  padding: 0 15px 0 0;
+  font-size: 24px;
+  text-align: right;
+  background-image: linear-gradient(
+    -120deg,
+    rgba(20, 94, 255, 0.2),
+    30%,
+    rgba(238, 68, 68, 0)
+  );
+  border-style: ridge;
+  border-width: 0 2px 2px 0;
+  border-image: linear-gradient(-30deg, rgb(8, 139, 247), 8%, rgba(0, 0, 0, 0))
+    10;
+}
+
+.titleZero {
+  color: #fff;
+}
+.titleExist {
+  color: rgba(238, 68, 68, 1);
+}
+
+.alarmClearBtn {
+  background-color: rgba(238, 68, 68, 0.5);
+  margin: 0 500px 0 0px;
+  border-radius: 4px;
+  border: none;
+  color: #fff;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 20px;
+}
+
+.alarmBoard {
+  background-image: url(./assets/alarm.png);
+  background-size: 100% 100%;
+  width: 500px;
+  margin: 10px;
+  padding: 10px;
+}
+.hidden {
+  transition: all 0.2s linear;
+  opacity: 0;
+  visibility: hidden;
+  /* display: none; */
+}
+.shown {
+  visibility: visible;
+  opacity: 1;
+}
+
+.alarmBroadcast {
+  background-image: none;
+  position: absolute;
+  top: 40px;
+  right: 16px;
+}
+
+.alarmBroadcast .closeAlarm {
+  visibility: hidden;
+}
+
+.alarmBoard h3 {
+  float: right;
+  font-size: 18px;
+  font-weight: 400;
+  text-align: right;
+  color: #ee4444;
+  margin: 3px 0;
+  line-height: 21px;
+}
+.alarmBoard ul {
+  margin: 1px 1px 0;
+}
+.alarmBoard ul li {
+  font-size: 22px;
+  font-weight: 200;
+  line-height: 30px;
+  color: #ffffff;
+  text-align: justify;
+}
+
+.closeAlarm {
+  float: right;
+  color: red;
+  font-size: 30px;
+  cursor: pointer;
+}
+
+.type {
+  position: absolute;
+  top: 0px;
+  left: 475px;
+  color: #2196f3;
+  display: inline-block;
+  width: 80px;
+  height: 27px;
+  line-height: 27px;
+  text-align: center;
+  font-weight: 400;
+  font-size: 27px;
+}
+
+.fireIMG {
+  background-image: url(./assets/firewarn.png);
+  position: absolute;
+  top: 150px;
+  right: 200px;
+}

@@ -1,0 +1,10 @@
+.cameras_main {
+  position: absolute;
+  width: 1880px;
+  left: 980px;
+  top: 890px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-around;
+}

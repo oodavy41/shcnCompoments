@@ -1,0 +1,77 @@
+.twoDashBroad {
+  height: 138px;
+  width: 160px;
+}
+.videoMeeting {
+  height: 138px;
+  width: 160px;
+}
+.dashBroadNum {
+  position: absolute;
+  top: 63px;
+  left: 52px;
+  font-family: "FranklinGothic-Medium", sans-serif;
+  font-size: 48px;
+  line-height: 30px;
+  color: #94d0ff;
+}
+.dashBroadText {
+  font-size: 22px;
+  letter-spacing: 1px;
+  color: #fff;
+  position: relative;
+  top: -60px;
+  left: 38px;
+}
+.numberFormat {
+  margin-left: 50%;
+  transform: translate(-50%, -50%);
+  position: absolute;
+  top: 74px;
+  font-family: "FranklinGothic-Medium", sans-serif;
+  font-size: 48px;
+  line-height: 30px;
+  color: #94d0ff;
+}
+
+.circleNum {
+  position: absolute;
+  font-size: 40px;
+  font-family: "FranklinGothic-Medium", sans-serif;
+  line-height: 40px;
+  margin-top: 25px;
+  width: 114px;
+  text-align: center;
+}
+.dashbroadCircle {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  top: 31px;
+  left: 31px;
+}
+.dashbroad {
+  position: absolute;
+  top: 15px;
+  left: 13px;
+  transform: rotateY(180deg);
+}
+.InnerRing {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  top: 31px;
+  left: 31px;
+  transform-origin: center center;
+  transition: transform 2s;
+  transform: rotate(-35deg);
+  z-index: 999;
+}
+.btn {
+  width: 12px;
+  height: 13px;
+  position: absolute;
+  left: 82px;
+  transform: rotate(-190deg);
+  top: 73px;
+}

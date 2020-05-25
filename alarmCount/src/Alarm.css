@@ -1,0 +1,85 @@
+.alarmCounterMain {
+  padding: 5px;
+  border-radius: 2px;
+  transition: all 0.2s linear;
+}
+
+.alarmMain ::-webkit-scrollbar-thumb {
+  background-color: rgba(119, 152, 243, 0.2);
+  border-radius: 5px;
+}
+
+.alarmBoard {
+  background-size: 100% 100%;
+  width: 500px;
+  margin: 10px;
+  padding: 10px;
+}
+.hidden {
+  transition: all 0.2s linear;
+  opacity: 0;
+  visibility: hidden;
+  /* display: none; */
+}
+.shown {
+  visibility: visible;
+  opacity: 1;
+}
+
+.alarmBroadcast {
+  background-image: none;
+  position: absolute;
+  top: 40px;
+  right: 16px;
+}
+
+.alarmBroadcast .closeAlarm {
+  visibility: hidden;
+}
+
+.alarmBoard h3 {
+  float: right;
+  font-size: 18px;
+  font-weight: 400;
+  text-align: right;
+  color: #ee4444;
+  margin: 3px 0;
+  line-height: 21px;
+}
+.alarmBoard ul {
+  margin: 1px 1px 0;
+}
+.alarmBoard ul li {
+  font-size: 22px;
+  font-weight: 200;
+  line-height: 30px;
+  color: #ffffff;
+  text-align: justify;
+}
+
+.closeAlarm {
+  float: right;
+  color: red;
+  font-size: 30px;
+  cursor: pointer;
+}
+
+.type {
+  position: absolute;
+  top: 0px;
+  left: 475px;
+  color: #2196f3;
+  display: inline-block;
+  width: 80px;
+  height: 27px;
+  line-height: 27px;
+  text-align: center;
+  font-weight: 400;
+  font-size: 27px;
+}
+
+.fireIMG {
+  position: absolute;
+  top: 150px;
+  right: 200px;
+}

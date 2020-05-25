@@ -1,0 +1,4 @@
+/visdataCompCli
+*node_modules*
+/dist
+*.zip

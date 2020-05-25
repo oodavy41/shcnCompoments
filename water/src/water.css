@@ -1,0 +1,41 @@
+.water_main {
+  height: 300px;
+}
+.water_title {
+  height: 24px;
+  font-family: AdobeHeitiStd-Regular;
+  font-size: 24px;
+  margin-left: 14px;
+  color: #ffffff;
+}
+.water_board {
+  float: left;
+  margin: 10px 0 0 0;
+}
+.water_subtitle {
+  float: left;
+  font-size: 24px;
+  line-height: 140px;
+  margin: 10px 30px;
+}
+.water_subtitle p {
+  font-family: AdobeHeitiStd-Regular;
+  color: #fff;
+  font-size: 24px;
+  line-height: 24px;
+}
+.water_bgvalue {
+  float: right;
+  width: 140px;
+  height: 140px;
+  background-color: rgba(41, 187, 26, 0.2);
+  border-radius: 70px;
+  line-height: 140px;
+  text-align: center;
+  font-size: 24px;
+  color: #ffffff;
+}
+.water_bgvalue svg {
+  position: relative;
+  top: -140px;
+}

@@ -1,0 +1,28 @@
+.date_detail {
+  color: #fff;
+  position: absolute;
+  width: 360px;
+  height: 45px;
+  text-align: center;
+}
+.date_texts {
+  font-size: 18px;
+}
+.date_hms {
+  font-size: 30px;
+  font-weight: 700;
+  margin: 0 0 0 10px;
+  width: 100px;
+  font-family: Arial;
+  font-weight: bold;
+  display: inline-block;
+}
+.weather {
+  margin: 10px 0 0 20px;
+}
+.Centigrade {
+  margin: 0 0 0 10px;
+}
+.Centigrade b {
+  font-size: 24px;
+}

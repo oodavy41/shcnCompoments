@@ -1,0 +1,33 @@
+.fourCircle {
+  background: url("./assets/circle2.png") no-repeat 0 0;
+  width: 114px;
+  height: 112px;
+}
+.fourCircle .numNormal {
+  color: #6ef05c;
+}
+
+.fourCircle .numWarn {
+  color: #f08512;
+}
+.fourCircle .numAlert {
+  color: #f64f4f;
+}
+
+.circleText {
+  width: 114px;
+  position: absolute;
+  font-size: 16px;
+  text-align: center;
+  margin-top: 65px;
+  color: #fff;
+}
+.circleNum {
+  position: absolute;
+  font-size: 40px;
+  font-family: "FranklinGothic-Medium", sans-serif;
+  line-height: 40px;
+  margin-top: 25px;
+  width: 114px;
+  text-align: center;
+}

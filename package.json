@@ -1,0 +1,25 @@
+{
+  "private": true,
+  "workspaces": [
+    "visdataCompTemplate",
+    "citizenHotline",
+    "water",
+    "weather",
+    "dust",
+    "gridManage",
+    "alarmCount",
+    "citizenInfoCount",
+    "rubbishCounter",
+    "saftyIndex",
+    "cnTitleBar",
+    "cnAlarmPanel",
+    "cnAlarmList",
+    "cnDate",
+    "cnWeather",
+    "cnAqiChart",
+    "cnWarnEvent",
+    "pointFrame",
+    "CameraLab",
+    "pointerPopup"
+  ]
+}

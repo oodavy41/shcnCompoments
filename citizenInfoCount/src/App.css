@@ -1,0 +1,9 @@
+.threeCircle {
+  background: rgba(158, 192, 218, 0.4);
+  height: 127px;
+  width: 127px;
+  color: #fff;
+  font-family: "FranklinGothic-Medium", sans-serif;
+  font-size: 40px;
+  border-radius: 50%;
+}

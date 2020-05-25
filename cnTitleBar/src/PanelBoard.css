@@ -1,0 +1,118 @@
+.titleBottons {
+  position: absolute;
+  top: 10px;
+  left: 51%;
+  transform: translateX(-50%);
+  height: 68px;
+}
+
+.titleCells {
+  margin: 0 12px;
+  width: 380px;
+  height: 100%;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.cityConsole {
+  width: 500px;
+  height: 105px;
+  position: absolute;
+  left: 70px;
+  top: 150px;
+  background-color: rgba(20, 100, 180, 0.05);
+}
+
+
+.CNBoard .titleCells {
+  margin: 0 6px;
+  width: 258px;
+  height: 100%;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+.pickedCell {
+  transform: scale(1.2);
+}
+
+.contentBoard {
+  z-index: -1;
+  background-size: 100% 100%;
+  width: 3840px;
+  height: 2160px;
+  position: absolute;
+  left: -1350px;
+  top: -30px;
+}
+
+.CNBoard .contentBoard {
+  z-index: -1;
+  background-size: 100% 100%;
+  width: 3840px;
+  height: 1080px;
+  position: absolute;
+  left: -1540px;
+  top: -10px;
+}
+
+.manageTable {
+  width: 920px;
+  height: 600px;
+  position: absolute;
+  left: 30px;
+  top: 800px;
+}
+
+.CNBoard .manageTable {
+  width: 600px;
+  height: 330px;
+  position: absolute;
+  left: 15px;
+  top: 380px;
+}
+.manageTableCell {
+  width: 24.78%;
+  height: 50%;
+  float: left;
+}
+
+.townshipList {
+  position: absolute;
+  top: 120px;
+  left: 685px;
+  width: 116px;
+}
+.townshipCell {
+  height: 31px;
+}
+
+.shownNcov {
+  z-index: 999999;
+  position: relative;
+  top: 160px;
+  left: 3234px;
+  height: 100px;
+  width: 100px;
+  background-color: rgba(20, 100, 180, 0);
+}
+.closeNcov {
+  position: absolute;
+  top: 0px;
+  left: 1940px;
+  width: 20px;
+  height: 20px;
+  font-size: 13px;
+  font-weight: 900;
+  line-height: 20px;
+  text-align: center;
+  color: #ff0000;
+  background-color: rgba(197, 116, 133, 0.685);
+  border: 1px solid rgba(255, 0, 0, 0.3);
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+
+.ant-layout-sider {
+    background: #404040 !important;
+}
