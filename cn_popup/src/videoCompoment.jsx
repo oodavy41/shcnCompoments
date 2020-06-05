@@ -107,6 +107,7 @@ export default class AlertInfo extends Component {
           style={{
             position: "relative",
             bottom: 170,
+            left: 40,
           }}
         >
           {this.props.videoId}

@@ -6,6 +6,7 @@ import roadOcc from "../images/pin.png";
 export default class Polymerization extends Component {
   constructor(props) {
     super(props);
+    this.popup = this.props.popup;
     this.spatialReferencevalue = `PROJCS["shanghaicity",GEOGCS["GCS_Beijing_1954",DATUM["D_Beijing_1954",SPHEROID["Krasovsky_1940",6378245.0,298.3]],PRIMEM["Greenwich",0.0],UNIT["Degree",0.0174532925199433]],PROJECTION["Transverse_Mercator"],PARAMETER["False_Easting",-3457147.81],PARAMETER["False_Northing",0.0],PARAMETER["Central_Meridian",121.2751921],PARAMETER["Scale_Factor",1.0],PARAMETER["Latitude_Of_Origin",0.0],UNIT["Meter",1.0]]`;
     this.url =
       "http://bigdata.cn.gov:9070/arcgis_js_v410_sdk/arcgis_js_api/library/4.10/dojo/dojo.js";
@@ -24,8 +25,8 @@ export default class Polymerization extends Component {
    * @param {[ { points:[{x:number,y:number}],popup:function(index):void,marks:{type:string,url:image,width:string,height:string} }]} datas
    */
 
-  cluster(datas) {
-    console.log("clusting", this.state.mapReady);
+  cluster(datas, clust = true) {
+    console.log("clusting", clust, "ready", this.state.mapReady);
     if (!(this.state.mapReady && datas)) {
       return;
     }
@@ -52,7 +53,7 @@ export default class Polymerization extends Component {
       return [mark1, mark11, mark111];
     }
 
-    let drawCluster = (grids, icon, popup) => {
+    let drawCluster = (grids, icon) => {
       var marks = defaultMarks();
       marks = marks.map((e) => {
         return {
@@ -74,7 +75,7 @@ export default class Polymerization extends Component {
           mark = marks[2];
         }
         let p = new this.ArcGisGraphic({
-          attributes: { ...e.attributes, popup: popup, count: e.clusterCount },
+          attributes: { ...e.attributes, count: e.clusterCount },
           geometry: {
             type: "point",
             x: e.x,
@@ -128,7 +129,6 @@ export default class Polymerization extends Component {
           break;
         }
       });
-      8;
       return grids;
     };
 
@@ -165,22 +165,31 @@ export default class Polymerization extends Component {
       return grids;
     };
 
+    let withoutCluster = (pointsData) => {
+      return pointsData.filter(
+        (e) =>
+          e.x >= this.view.extent.xmin &&
+          e.x < this.view.extent.xmax &&
+          e.y >= this.view.extent.ymin &&
+          e.y < this.view.extent.ymax
+      );
+    };
+
     console.log(datas);
-    datas.forEach((e) => {
-      e.points = e.points.map((p) => {
-        return { ...p, x: +p.x, y: +p.y };
-      });
-    });
 
     this.view.graphics.removeMany(this.pointsObj);
     this.pointsObj = [];
     for (let i = 0; i < datas.length; i++) {
       if (!datas[i].hide) {
         let e = datas[i];
-        let grids = generateGrid();
-        grids = clustPoints(grids, e.points);
+        let pointsData;
+        if (clust) {
+          pointsData = clustPoints(generateGrid(), e.points);
+        } else {
+          pointsData = withoutCluster(e.points);
+        }
         this.pointsObj = this.pointsObj.concat(
-          drawCluster(grids, e.marks, e.popup)
+          drawCluster(pointsData, e.marks)
         );
       }
     }
@@ -408,7 +417,7 @@ export default class Polymerization extends Component {
 
           this.view.when(() => {
             this.cluster(this.props.datas);
-            ["drag", "mouse-whell", "double-click"].forEach((e) => {
+            ["drag", "mouse-wheel", "double-click"].forEach((e) => {
               this.view.on(e, (event) => {
                 this.cameraModifyed = true;
               });
@@ -416,7 +425,11 @@ export default class Polymerization extends Component {
             watchUtils.whenTrue(this.view, "stationary", () => {
               if (this.cameraModifyed) {
                 this.cameraModifyed = false;
-                this.cluster(this.props.datas);
+                if (this.view.zoom === 9) {
+                  this.cluster(this.props.data, false);
+                } else {
+                  this.cluster(this.props.datas, true);
+                }
               }
             });
 
@@ -425,7 +438,6 @@ export default class Polymerization extends Component {
               this.view.hitTest(e).then((result) => {
                 console.log(result);
                 let objGraphic = result.results[0].graphic;
-                var popup = objGraphic.attributes.popup;
                 let all = objGraphic.attributes;
                 if (
                   all.NAME === "上海虹桥国际机场" ||
@@ -440,13 +452,9 @@ export default class Polymerization extends Component {
                 ) {
                   return false;
                 } else if (result.results.length > 0) {
-                  var mapPoint = result.results[0].mapPoint;
-                  console.log("POST");
-                  popup(all);
-                  // this.view.popup.open({
-                  //   location: mapPoint,
-                  //   content: popup(all),
-                  // });
+                  window.postMessage(this.popup(all));
+                  console.log("POSTED")
+                  
                 }
               });
             });

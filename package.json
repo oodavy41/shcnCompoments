@@ -21,6 +21,8 @@
     "pointFrame",
     "CameraLab",
     "pointerPopup",
-    "arcgisBoard"
+    "arcgisBoard",
+    "cn_popup",
+    "clickPoster"
   ]
 }

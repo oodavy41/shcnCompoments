@@ -1,0 +1,56 @@
+.cn_popup_main {
+  position: absolute;
+  width: 320px;
+  padding: 10px;
+  border-radius: 8px;
+  background-color: rgba(26, 112, 151, 0.336);
+  color: #fff;
+}
+.cn_popup_close {
+  float: right;
+  width: 24px;
+  height: 24px;
+  line-height: 20px;
+  display: block;
+  font-family: Helvetica, STHeiti;
+  font-size: 18px;
+  line-height: 18px;
+  border-radius: 24px;
+  background: rgba(153, 153, 153, 0.8);
+  color: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  transition: linear 0.06s;
+  padding: 0;
+  text-align: center;
+  text-decoration: none;
+  outline: none;
+  cursor: pointer;
+  border: none;
+}
+
+.cn_popup_close:hover {
+  width: 30px;
+  height: 30px;
+  left: 8px;
+  top: 8px;
+  color: #fff;
+  box-shadow: 0 1px 3px rgba(209, 40, 42, 0.5);
+  background: #d1282a;
+  border-radius: 24px;
+  transition: all 0.2s ease-out;
+  opacity: 0.8;
+}
+.cn_popup_table {
+}
+
+.cn_popup_text {
+  width: 100%;
+  padding-left: 20px;
+  line-height: 28px;
+  display: inline-block;
+  text-align: left;
+}
+
+.cn_popup_hide {
+  display: none;
+}

@@ -1,30 +1,65 @@
 .cameras_main {
   z-index: 99;
-  position: absolute;
+  position: relative;
   width: 300px;
-  height: 640px;
-  margin-left: -50%;
-  top: 100px;
-  left: 1500px;
+  height: 580px;
   text-align: center;
   align-items: center;
   color: #fff;
-  background-color: rgba(0, 100, 150, 0.7);
+  background-color: rgba(0, 0, 0, 0);
   border-radius: 5px;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
 }
+.cameras_head {
+  width: 260px;
+}
+
+.cameras_pagniation {
+  position: relative;
+  display: flex;
+  width: 150px;
+  font-size: 12px;
+  margin-top: 1px;
+  flex-direction: row;
+}
+.cameras_switch {
+  position: absolute;
+  top: -40px;
+  right: 0px;
+  width: 50px;
+  margin-left: 10px;
+}
+.cameras_switch_label {
+  float: right;
+}
 
 .cameras_count {
+  font-size: 12px;
+  background-color: rgba(0, 0, 0, 0.3);
 }
+
 .cameras_refresh {
-  width: 150px;
-  background-color: rgba(0, 200, 150, 0.7);
+  width: 20px;
+  height: 20px;
   color: white;
+  background-color: rgba(0, 0, 0, 0.3);
   border: none;
 }
 
 .cameras_refresh:hover {
-  background-color: #4caf50;
+  background-color: rgba(24, 144, 204, 0.7);
+}
+
+.cameras_selector {
+  position: relative;
+  float: left;
+  display: flex;
+  font-size: 16px;
+  width: 90px;
+}
+.cameras_selector select {
+  color: white;
+  background-color: rgba(0, 0, 0, 0.3);
 }

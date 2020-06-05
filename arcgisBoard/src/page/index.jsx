@@ -9,20 +9,68 @@ import ReactDOM from "react-dom";
 // import AlertPopups from './AlertPopups'
 import Polymerization from "../components/Polymerization";
 
+const keyWords = [
+  {
+    filter: (v) => v.type.indexOf("消防") >= 0 && v.name.indexOf("长宁") >= 0,
+    pinType: "changning",
+    marks: redPin,
+  },
+  {
+    filter: (v) => v.type.indexOf("消防") >= 0 && v.name.indexOf("附近") >= 0,
+    pinType: "fujin",
+    marks: orangePin,
+  },
+  {
+    filter: (v) => v.type.indexOf("消防") >= 0 && v.name.indexOf("企业") >= 0,
+    pinType: "qiye",
+    marks: greenPin,
+  },
+  {
+    filter: (v) => v.type.indexOf("消防") >= 0 && v.name.indexOf("社区") >= 0,
+    pinType: "shequ",
+    marks: yellowPin,
+  },
+  {
+    filter: (v) => v.type.indexOf("视频") >= 0,
+    pinType: "shipin",
+    marks: cameraPin,
+    markSize: 1,
+  },
+];
+
 const PICKPOINT = "PICKPOINT";
 const POSTDATA = "POSTDATA";
 const GRIDFLAG = "GRIDFLAG";
+const SHOWNSTATE = "SHOWNSTATE";
+
+const postPoints = (evt) => {
+  let data = {
+    data: {
+      sbbh: evt.sbbh,
+      name: evt.name,
+      type: evt.type,
+      address: evt.address,
+      pinType: evt.pinType,
+      state: evt.state,
+      X: evt.X,
+      Y: evt.Y,
+    },
+    type: PICKPOINT,
+    flag: GRIDFLAG,
+  };
+  console.log("BEFORE POST", data);
+  return data;
+};
 export default class ArcGISMap extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      layer: 1,
-      arcgisParam: [],
+      flag: keyWords.map(() => false),
     };
+    this.updateFlag = true;
     this.map = null;
     this.token = null;
     this.addClusters = null;
-    this.parent = null;
 
     window.addEventListener(
       "message",
@@ -36,10 +84,17 @@ export default class ArcGISMap extends Component {
           event.origin === "http://localhost:7000" ||
           event.origin === "http://localhost:8000"
         ) {
-          if (event.data.type === POSTDATA && event.data.flag === GRIDFLAG) {
-            this.parent = event.source;
-            let data = event.data.data;
-            this.getData(data);
+          if (event.data.type === SHOWNSTATE && event.data.flag === GRIDFLAG) {
+            let { pinType, data } = event.data;
+            let index = keyWords.findIndex((e) => e.pinType === pinType);
+            if (index >= 0) {
+              let { flag } = this.state;
+              if (data) flag[index] = data;
+              else flag[index] = !flag[index];
+              this.setState({ flag });
+              this.updateFlag = true;
+              console.log(this.state.flag)
+            }
           }
         }
       },
@@ -53,84 +108,28 @@ export default class ArcGISMap extends Component {
   componentDidUpdate() {}
 
   shouldComponentUpdate(nextProps) {
-    return this.props.data !== nextProps.data;
+    return this.props.data !== nextProps.data||this.updateFlag;
   }
 
   getData(data) {
     if (!data) {
       return;
     }
-    let pointsData = data.map((v) => {
-      return { ...v, x: v.X, y: v.Y };
-    });
-    let typedData = [
-      {
-        data: pointsData
-          .filter((v) => v.type.indexOf("长宁") >= 0)
-          .map((v) => ({ ...v, type: "default" })),
-        type: "default",
-        marks: redPin,
-      },
-      {
-        data: pointsData
-          .filter((v) => v.type.indexOf("附近") >= 0)
-          .map((v) => ({ ...v, type: "default" })),
-        type: "default",
-        marks: orangePin,
-      },
-      {
-        data: pointsData
-          .filter((v) => v.type.indexOf("企业") >= 0)
-          .map((v) => ({ ...v, type: "default" })),
-        type: "default",
-        marks: greenPin,
-      },
-      {
-        data: pointsData
-          .filter((v) => v.type.indexOf("社区") >= 0)
-          .map((v) => ({ ...v, type: "default" })),
-        type: "default",
-        marks: yellowPin,
-      },
-      {
-        data: pointsData
-          .filter((v) => v.type.indexOf("视频") >= 0)
-          .map((v) => ({ ...v, type: "camera" })),
-        type: "camera",
-        marks: cameraPin,
-        markSize: 1,
-      },
-    ];
-    let ret = typedData.map((v) => ({
-      points: v.data,
-      type: v.type,
-      marks: v.marks,
-      popup: (e) => {
-        this.postPoints(e);
-      },
+    let pointsData = data.slice(1).map((v) => ({ ...v, x: +v.X, y: +v.Y }));
+    let keyWordsFilted = [];
+    keyWords.forEach((e, i) => this.state.flag[i] && keyWordsFilted.push(e));
+    let typedData = keyWordsFilted.map((dataProp) => ({
+      ...dataProp,
+      points: pointsData
+        .filter(dataProp.filter)
+        .map((v) => ({ ...dataProp, ...v })),
     }));
-    this.setState({ arcgisParam: ret });
-    return ret;
-  }
-
-  postPoints(evt) {
-    console.log("postedMEssage");
-    console.log(this.parent);
-    let data = { point: evt, type: PICKPOINT, flag: GRIDFLAG };
-    this.parent.postMessage(data, "*");
-  }
-
-  closePoints() {
-    this.popup && ReactDOM.unmountComponentAtNode(this.popup);
-  }
-
-  componentWillUnmount() {
-    this.popup && ReactDOM.unmountComponentAtNode(this.popup);
-    this.popupBuild && ReactDOM.unmountComponentAtNode(this.popupBuild);
-    this.popupGongdi && ReactDOM.unmountComponentAtNode(this.popupGongdi);
+    console.log(typedData);
+    return typedData;
   }
 
   render() {
+    this.update = false;
     const style = {
       overflow: "hidden",
       position: "absolute",
@@ -139,10 +138,13 @@ export default class ArcGISMap extends Component {
       height: "1080px",
       zIndex: "0",
     };
-    console.log("input Data:", this.state.arcgisParam);
     return (
       <div className="road" style={style}>
-        <Polymerization datas={this.getData(this.props.data)} style={style} />
+        <Polymerization
+          datas={this.getData(this.props.data)}
+          popup={postPoints}
+          style={style}
+        />
       </div>
     );
   }

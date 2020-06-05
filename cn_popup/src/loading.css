@@ -6,10 +6,6 @@
   -webkit-transform: rotateZ(45deg);
   transform: rotateZ(45deg);
 }
-.cn_camLab_loadingMain {
-  position: relative;
-  bottom: 170px;
-}
 
 .sk-folding-cube .sk-cube {
   float: left;
@@ -98,4 +94,13 @@
     transform: perspective(140px) rotateY(180deg);
     opacity: 0;
   }
+}
+
+.cn_popup_loadingMain {
+  position: absolute;
+  top:50px;
+  left:100px
+
+}
+.cn_popup_loadingText {
 }
