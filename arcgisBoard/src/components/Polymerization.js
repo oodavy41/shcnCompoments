@@ -3,14 +3,18 @@ import React, { Component } from "react";
 
 import roadOcc from "../images/pin.png";
 
+const CLUSTING = false;
+let CENTER = "";
 export default class Polymerization extends Component {
   constructor(props) {
     super(props);
     this.popup = this.props.popup;
+    this.ref = null;
     this.spatialReferencevalue = `PROJCS["shanghaicity",GEOGCS["GCS_Beijing_1954",DATUM["D_Beijing_1954",SPHEROID["Krasovsky_1940",6378245.0,298.3]],PRIMEM["Greenwich",0.0],UNIT["Degree",0.0174532925199433]],PROJECTION["Transverse_Mercator"],PARAMETER["False_Easting",-3457147.81],PARAMETER["False_Northing",0.0],PARAMETER["Central_Meridian",121.2751921],PARAMETER["Scale_Factor",1.0],PARAMETER["Latitude_Of_Origin",0.0],UNIT["Meter",1.0]]`;
     this.url =
       "http://bigdata.cn.gov:9070/arcgis_js_v410_sdk/arcgis_js_api/library/4.10/dojo/dojo.js";
     this.ArcGisGraphic = null;
+    this.featureLayers = {};
     this.gridRatio = 100;
     this.view = null;
     this.cameraModifyed = false;
@@ -29,6 +33,11 @@ export default class Polymerization extends Component {
     console.log("clusting", clust, "ready", this.state.mapReady);
     if (!(this.state.mapReady && datas)) {
       return;
+    }
+    if (!clust) {
+      for (let k in this.featureLayers) {
+        this.featureLayers[k].visible = false;
+      }
     }
     function defaultMarks() {
       var mark1 = {
@@ -53,7 +62,7 @@ export default class Polymerization extends Component {
       return [mark1, mark11, mark111];
     }
 
-    let drawCluster = (grids, icon) => {
+    let drawCluster = (grids, icon, feature = false) => {
       var marks = defaultMarks();
       marks = marks.map((e) => {
         return {
@@ -86,8 +95,37 @@ export default class Polymerization extends Component {
         });
         points.push(p);
       });
-      console.log(points, "points");
-      this.view.graphics.addMany(points);
+      if (feature) {
+        const pinType = points[0].attributes.pinType;
+        if (!this.featureLayers[pinType]) {
+          const mainLayer = new this.ArcGisFeatureLayer({
+            source: points,
+            objectIdField: "OBJECTID",
+            fields: [
+              { name: "OBJECTID", type: "oid" },
+              { name: "sbbh", type: "string" },
+              { name: "name", type: "string" },
+              { name: "type", type: "string" },
+              { name: "address", type: "string" },
+              { name: "pinType", type: "string" },
+              { name: "state", type: "string" },
+            ],
+            geometryType: "point",
+            renderer: {
+              type: "simple",
+              symbol: marks[0],
+            },
+          });
+          this.map.add(mainLayer);
+          this.featureLayers[pinType] = mainLayer;
+        } else {
+          this.featureLayers[pinType].visible = true;
+        }
+      } else {
+        console.log(points, "points");
+        this.view.graphics.addMany(points);
+      }
+
       return points;
     };
 
@@ -166,13 +204,15 @@ export default class Polymerization extends Component {
     };
 
     let withoutCluster = (pointsData) => {
-      return pointsData.filter(
-        (e) =>
-          e.x >= this.view.extent.xmin &&
-          e.x < this.view.extent.xmax &&
-          e.y >= this.view.extent.ymin &&
-          e.y < this.view.extent.ymax
-      );
+      return pointsData
+        .filter(
+          (e) =>
+            e.x >= this.view.extent.xmin &&
+            e.x < this.view.extent.xmax &&
+            e.y >= this.view.extent.ymin &&
+            e.y < this.view.extent.ymax
+        )
+        .map((e) => ({ ...e, attributes: e }));
     };
 
     console.log(datas);
@@ -189,14 +229,25 @@ export default class Polymerization extends Component {
           pointsData = withoutCluster(e.points);
         }
         this.pointsObj = this.pointsObj.concat(
-          drawCluster(pointsData, e.marks)
+          drawCluster(pointsData, e.marks, !clust)
         );
       }
     }
   }
 
+  resize() {
+    // const x = 3840,
+    //   y = 1080;
+    // const mapdiv = document.getElementById("mapDiv");
+    // const { height, width } = mapdiv.getBoundingClientRect();
+    // mapdiv.style.width = `${width}px`;
+    // mapdiv.style.height = `${height}px`;
+    // mapdiv.style.transform = `scaleX(${x / width});scaleY(${y / height})`;
+    // console.log("resize:", width, height);
+  }
+
   componentDidUpdate() {
-    this.cluster(this.props.datas);
+    this.cluster(this.props.datas, CLUSTING);
     if (this.props.camerainfo && this.view) {
       let { camerainfo } = this.props;
       console.log(camerainfo);
@@ -272,6 +323,7 @@ export default class Polymerization extends Component {
         ]) => {
           this.ArcGisGraphic = Graphic;
           this.ArcGisPoint = Point;
+          this.ArcGisFeatureLayer = FeatureLayer;
           let spatialReferencevalue = this.spatialReferencevalue;
           esriConfig.fontsUrl =
             "http://bigdata.cn.gov:9070/arcgisapi-master/fonts/arial-unicode-ms";
@@ -315,85 +367,15 @@ export default class Polymerization extends Component {
           });
 
           /**
-           * 高架桥
-           */
-          const glRenderer = {
-            type: "simple", // autocasts as new SimpleRenderer()
-            symbol: {
-              type: "simple-line", // autocasts as new SimpleLineSymbol()
-              width: 8,
-              color: [45, 155, 163, 0.6],
-            },
-          };
-
-          const labelClass = {
-            // autocasts as new LabelClass()
-            symbol: {
-              type: "text", // autocasts as new TextSymbol()
-              color: "green",
-              haloColor: "black",
-              font: {
-                // autocast as new Font()
-                size: 12,
-                family: "microsoft-yahei",
-                weight: "normal",
-              },
-            },
-          };
-          var GongLu = new FeatureLayer({
-            url:
-              "http://map.cn.gov/OneMapServer/rest/services/ROAD_FCLASS/FeatureServer/0",
-            renderer: glRenderer,
-            id: "states",
-            outFields: ["*"],
-            labelingInfo: [labelClass],
-            mode: FeatureLayer.MARKER_ACTIVITY,
-          });
-
-          /**
-           * 地铁
-           */
-          const dtRenderer = {
-            type: "simple", // autocasts as new SimpleRenderer()
-            symbol: {
-              type: "simple-line", // autocasts as new SimpleLineSymbol()
-              width: 2,
-              color: [41, 182, 246, 0.4],
-            },
-          };
-          var DiTie = new FeatureLayer({
-            url:
-              "http://map.cn.gov/OneMapServer/rest/services/JTSS_FCLASS/FeatureServer/3",
-            renderer: dtRenderer,
-            outFields: ["*"],
-            labelingInfo: [labelClass],
-          });
-
-          /**
-           * 标志性建筑物机场  JiChang
-           */
-          const jcRenderer = {
-            type: "simple", // autocasts as new SimpleRenderer()
-            symbol: {
-              type: "simple-fill", // autocasts as new SimpleFillSymbol()
-              color: [3, 33, 56, 0.8],
-              outline: {
-                color: [255, 255, 255, 0.3],
-                width: 0.5,
-              },
-            },
-          };
-
-          /**
            * 区界图层设置  QUJIE
            */
           const hwyRenderer = {
             type: "simple", // autocasts as new SimpleRenderer()
             symbol: {
               type: "simple-line", // autocasts as new SimpleLineSymbol()
-              width: 2,
-              color: [237, 231, 246, 1],
-              style: "dash",
+              width: 4,
+              color: [255, 255, 255, 1],
+              style: "solid",
             },
           };
           // eslint-disable-next-line no-redeclare
@@ -407,34 +389,46 @@ export default class Polymerization extends Component {
           });
 
           this.map.add(tiledLayer);
-          this.map.add(GongLu);
-          this.map.add(DiTie);
           this.map.add(QUJIE);
 
           this.view.ui.components = [];
+          CENTER = this.view.center;
+          CENTER.y += 1000;
+          this.view.center = CENTER;
+          console.log("center", CENTER);
 
           console.log("DID INITED");
 
           this.view.when(() => {
-            this.cluster(this.props.datas);
+            // this.resize();
+            this.cluster(this.props.datas, CLUSTING);
             ["drag", "mouse-wheel", "double-click"].forEach((e) => {
               this.view.on(e, (event) => {
                 this.cameraModifyed = true;
               });
             });
             watchUtils.whenTrue(this.view, "stationary", () => {
+              // this.resize(viewWidth/2, viewHeight/2);
               if (this.cameraModifyed) {
+                console.log(this.view.zoom);
                 this.cameraModifyed = false;
-                if (this.view.zoom === 9) {
-                  this.cluster(this.props.data, false);
-                } else {
-                  this.cluster(this.props.datas, true);
+                if (CLUSTING) {
+                  if (this.view.zoom === 9) {
+                    this.cluster(this.props.data, false);
+                  } else {
+                    this.cluster(this.props.datas, true);
+                  }
+                }
+                if (this.view.zoom < 4) {
+                  this.view.zoom = 4;
+                  this.view.center = CENTER;
                 }
               }
             });
 
             this.view.popup.autoOpenEnabled = false;
             this.view.on("click", (e) => {
+              console.log("click", e);
               this.view.hitTest(e).then((result) => {
                 console.log(result);
                 let objGraphic = result.results[0].graphic;
@@ -453,11 +447,14 @@ export default class Polymerization extends Component {
                   return false;
                 } else if (result.results.length > 0) {
                   window.postMessage(this.popup(all));
-                  console.log("POSTED")
-                  
+                  console.log("POSTED");
                 }
               });
             });
+            // this.view.on("resize", (e) => {
+            //   console.log("resize", e);
+            //   this.resize();
+            // });
 
             this.view.ui.components = [];
             this.setState({ mapReady: true });
@@ -467,6 +464,6 @@ export default class Polymerization extends Component {
   }
 
   render() {
-    return <div id="mapDiv" {...this.props} />;
+    return <div ref={(m) => (this.ref = m)} id="mapDiv" {...this.props} />;
   }
 }

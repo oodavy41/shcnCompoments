@@ -16,6 +16,11 @@ const keyWords = [
     marks: redPin,
   },
   {
+    filter: (v) => v.type.indexOf("消防") >= 0 && v.name.indexOf("地上式") >= 0,
+    pinType: "xiaofangshuan",
+    marks: redPin,
+  },
+  {
     filter: (v) => v.type.indexOf("消防") >= 0 && v.name.indexOf("附近") >= 0,
     pinType: "fujin",
     marks: orangePin,
@@ -52,8 +57,6 @@ const postPoints = (evt) => {
       address: evt.address,
       pinType: evt.pinType,
       state: evt.state,
-      X: evt.X,
-      Y: evt.Y,
     },
     type: PICKPOINT,
     flag: GRIDFLAG,
@@ -93,7 +96,7 @@ export default class ArcGISMap extends Component {
               else flag[index] = !flag[index];
               this.setState({ flag });
               this.updateFlag = true;
-              console.log(this.state.flag)
+              console.log(this.state.flag);
             }
           }
         }
@@ -108,7 +111,7 @@ export default class ArcGISMap extends Component {
   componentDidUpdate() {}
 
   shouldComponentUpdate(nextProps) {
-    return this.props.data !== nextProps.data||this.updateFlag;
+    return this.props.data !== nextProps.data || this.updateFlag;
   }
 
   getData(data) {
@@ -122,7 +125,7 @@ export default class ArcGISMap extends Component {
       ...dataProp,
       points: pointsData
         .filter(dataProp.filter)
-        .map((v) => ({ ...dataProp, ...v })),
+        .map((v) => ({ ...dataProp, ...v, filter: "" })),
     }));
     console.log(typedData);
     return typedData;
@@ -132,10 +135,8 @@ export default class ArcGISMap extends Component {
     this.update = false;
     const style = {
       overflow: "hidden",
-      position: "absolute",
-      left: "0px",
-      width: "3840px",
-      height: "1080px",
+      width: "100%",
+      height: "100%",
       zIndex: "0",
     };
     return (

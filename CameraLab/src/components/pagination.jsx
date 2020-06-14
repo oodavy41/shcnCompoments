@@ -41,7 +41,7 @@ export default class Pagination extends Component {
           {"<"}
         </button>
         <div className="cameras_count">
-          {offset}/{count}个
+          {offset + WIN}/{count}个
         </div>
         <button
           className="cameras_refresh"
@@ -62,7 +62,7 @@ export default class Pagination extends Component {
               }}
               hidden
             />
-            <label for="menu-right" className="switch-slide-label"></label>
+            <label htmlFor="menu-right" className="switch-slide-label"></label>
           </label>
           <div className="cameras_switch_label">分布</div>
         </div>

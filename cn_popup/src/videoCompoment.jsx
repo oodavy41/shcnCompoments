@@ -1,17 +1,20 @@
 import React, { Component } from "react";
 import Loading from "./loading";
 import videojs from "video.js";
+import "videojs-contrib-hls";
 import "video.js/dist/video-js.css";
 import axios from "axios";
 export default class AlertInfo extends Component {
   constructor(props) {
     super(props);
+    this.playerNode = null;
     this.player = null;
-    this.id = "";
+    this.sbbh = "";
     this.state = {
       Hls_url: "",
       loading: true,
     };
+    this.ready = false;
   }
   componentWillUnmount() {
     console.log("disposed");
@@ -19,16 +22,20 @@ export default class AlertInfo extends Component {
   }
   componentDidMount() {
     console.log("mounted");
-    let player = videojs(this.props.code);
-    player.on("ready", function () {
+    let player;
+    player = videojs(this.playerNode, {}, () => {
       console.log("video", "ready", this);
-      this.play();
       this.setState({ loading: false });
+      this.ready = true;
     });
     player.on("error", () => {
       console.log("video error");
+      if (!this.state.Hls_url) {
+        this.setState({ loading: true });
+      }
       player.errorDisplay.close();
     });
+
     // player.width = 800;
     // player.height = 600;
     this.player = player;
@@ -38,22 +45,16 @@ export default class AlertInfo extends Component {
     this.getData(this.props.videoId);
   }
 
-  shouldComponentUpdate(next, nextState) {
-    return (
-      this.props.videoId !== next.videoId &&
-      this.state.loading !== nextState.loading
-    );
-  }
-
   getData(id) {
-    if (this.id === id) {
+    console.log(this.sbbh, "|", id);
+    if (this.sbbh === id) {
       return;
     }
-    this.setState({ loading: true });
+    this.sbbh = id;
 
     let getData = [
       {
-        distrcit: "13",
+        distrcit: "05",
         town: "",
         url: "",
         type: "application/x-mpegURL",
@@ -69,10 +70,11 @@ export default class AlertInfo extends Component {
       .then((response) => {
         const { url } = JSON.parse(response.data.result)[0];
         console.log(response, url);
+        console.log(this.player, this.ready);
 
-        if (this.player) {
+        if (this.player && url) {
           this.player.src(url);
-          this.player.load(url);
+          console.log("!!!");
         }
         this.setState({
           Hls_url: url,
@@ -87,19 +89,17 @@ export default class AlertInfo extends Component {
     return (
       <div style={{ width: 275, height: 180 }}>
         <video
-          data-vjs-player
+          ref={(n) => (this.playerNode = n)}
           width="270px"
           height="180px"
-          id={this.props.code}
           className="video-js"
           preload="auto"
           controls={false}
           autoPlay
-          data-setup="{}"
           style={{ margin: "2px auto" }}
         >
           <source
-            // src={this.state.Hls_url}
+            src={this.state.Hls_url}
             type="application/x-mpegURL"
           ></source>
         </video>
@@ -107,7 +107,6 @@ export default class AlertInfo extends Component {
           style={{
             position: "relative",
             bottom: 170,
-            left: 40,
           }}
         >
           {this.props.videoId}

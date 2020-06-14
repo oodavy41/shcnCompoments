@@ -19,7 +19,7 @@ export default class App extends Component {
         state: "番禺路209弄2",
         address: "番禺路209弄2"
       },
-      hide: true,
+      hide: false,
     };
 
     window.addEventListener(
@@ -56,7 +56,12 @@ export default class App extends Component {
           ⨯
         </button>
         {data && data.sbbh ? (
-          <Videojs videoId={data.sbbh} code={"video" + data.sbbh}></Videojs>
+          <Videojs
+            videoId={sbbh}
+            key={sbbh}
+            index={i}
+            code={"video" + sbbh}
+          ></Videojs>
         ) : (
           ""
         )}

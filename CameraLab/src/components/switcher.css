@@ -3,13 +3,13 @@
   margin-top: 2px;
   float: left;
 
-  width: 24px;
+  width: 5em;
 
-  height: 14px;
+  height: 2em;
 
   background: #ccc;
 
-  border-radius: 30px;
+  border-radius: 5em;
 
   cursor: pointer;
 
@@ -23,9 +23,9 @@
 
   display: block;
 
-  width: 12px;
+  width: 2em;
 
-  height: 12px;
+  height: 2em;
 
   border-radius: 100%;
 
@@ -53,5 +53,5 @@
 }
 
 .switch-slide input:checked + label:after {
-  left: 12px;
+  left: 3em;
 }

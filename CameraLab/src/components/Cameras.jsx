@@ -53,8 +53,14 @@ export default class Cameras extends Component {
         </div>
         {offsets.map((index, i) => {
           let { sbbh } = data[index];
+          console.log(i, sbbh);
           return (
-            <Videojs videoId={sbbh} key={i} code={"video" + sbbh}></Videojs>
+            <Videojs
+              videoId={sbbh}
+              key={sbbh}
+              index={i}
+              code={"video" + sbbh}
+            ></Videojs>
           );
         })}
       </div>
