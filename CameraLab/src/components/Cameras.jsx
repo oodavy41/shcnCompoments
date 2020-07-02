@@ -5,6 +5,10 @@ import Selector from "./selector";
 import Pagination from "./pagination";
 
 const WIN = 3;
+const FULLSCREEN = "FULLSCREEN";
+const POSTDATA = "POSTDATA";
+const GRIDFLAG = "GRIDFLAG";
+const SHOWNSTATE = "SHOWNSTATE";
 export default class Cameras extends Component {
   constructor(props) {
     super(props);
@@ -35,7 +39,6 @@ export default class Cameras extends Component {
     for (let i = 0; i < WIN; i++) {
       offsets.push((offset + i) % data.length);
     }
-
     return (
       <div className="cameras_main">
         <div className="cameras_head">
@@ -60,6 +63,14 @@ export default class Cameras extends Component {
               key={sbbh}
               index={i}
               code={"video" + sbbh}
+              fullScreen={() => {
+                const data = {
+                  data: { sbbh },
+                  type: FULLSCREEN,
+                  flag: GRIDFLAG,
+                };
+                window.postMessage(data);
+              }}
             ></Videojs>
           );
         })}

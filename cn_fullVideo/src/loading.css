@@ -1,12 +1,22 @@
+.cn_popup_loadingMain {
+  position: absolute;
+  left: 50%;
+  top:60%;
+  transform: translateX(-50%) translateY(-50%);
+}
+.cn_popup_loadingText {
+  text-align: center; 
+  font-size: 2em;
+}
+
 .sk-folding-cube {
-  margin: 20px auto;
-  width: 40px;
-  height: 40px;
+  margin: 1.5em auto;
+  width: 3em;
+  height: 3em;
   position: relative;
   -webkit-transform: rotateZ(45deg);
   transform: rotateZ(45deg);
 }
-
 .sk-folding-cube .sk-cube {
   float: left;
   width: 50%;
@@ -94,13 +104,4 @@
     transform: perspective(140px) rotateY(180deg);
     opacity: 0;
   }
-}
-
-.cn_popup_loadingMain {
-  position: absolute;
-  top:50px;
-  left:100px
-
-}
-.cn_popup_loadingText {
 }

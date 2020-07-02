@@ -3,8 +3,11 @@ import React, { Component } from "react";
 
 import roadOcc from "../images/pin.png";
 
-const CLUSTING = false;
+const CLUSTING = false,
+  VIEWWIDTH = 7680,
+  VIEWHEIGHT = 2160;
 let CENTER = "";
+
 export default class Polymerization extends Component {
   constructor(props) {
     super(props);
@@ -21,6 +24,7 @@ export default class Polymerization extends Component {
     this.state = {
       mapReady: false,
     };
+    this.viewsize = { width: 0, height: 0 };
     this.pointsObj = [];
   }
 
@@ -43,20 +47,20 @@ export default class Polymerization extends Component {
       var mark1 = {
         type: "picture-marker",
         url: roadOcc,
-        width: "18px",
-        height: "20px",
+        width: "60px",
+        height: "65px",
       };
       var mark11 = {
         type: "picture-marker",
         url: roadOcc,
-        width: "24px",
-        height: "27px",
+        width: "70px",
+        height: "76px",
       };
       var mark111 = {
         type: "picture-marker",
         url: roadOcc,
-        width: "30px",
-        height: "35px",
+        width: "80px",
+        height: "87px",
       };
 
       return [mark1, mark11, mark111];
@@ -235,15 +239,10 @@ export default class Polymerization extends Component {
     }
   }
 
-  resize() {
-    // const x = 3840,
-    //   y = 1080;
-    // const mapdiv = document.getElementById("mapDiv");
-    // const { height, width } = mapdiv.getBoundingClientRect();
-    // mapdiv.style.width = `${width}px`;
-    // mapdiv.style.height = `${height}px`;
-    // mapdiv.style.transform = `scaleX(${x / width});scaleY(${y / height})`;
-    // console.log("resize:", width, height);
+  onResize() {
+    const mapdiv = document.getElementById("mapDiv");
+    const { height, width } = mapdiv.getBoundingClientRect();
+    this.viewsize = { height: VIEWHEIGHT / height, width: VIEWWIDTH / width };
   }
 
   componentDidUpdate() {
@@ -400,7 +399,7 @@ export default class Polymerization extends Component {
           console.log("DID INITED");
 
           this.view.when(() => {
-            // this.resize();
+            this.onResize();
             this.cluster(this.props.datas, CLUSTING);
             ["drag", "mouse-wheel", "double-click"].forEach((e) => {
               this.view.on(e, (event) => {
@@ -408,7 +407,6 @@ export default class Polymerization extends Component {
               });
             });
             watchUtils.whenTrue(this.view, "stationary", () => {
-              // this.resize(viewWidth/2, viewHeight/2);
               if (this.cameraModifyed) {
                 console.log(this.view.zoom);
                 this.cameraModifyed = false;
@@ -429,6 +427,8 @@ export default class Polymerization extends Component {
             this.view.popup.autoOpenEnabled = false;
             this.view.on("click", (e) => {
               console.log("click", e);
+              e.x *= this.viewsize.width;
+              e.y *= this.viewsize.height;
               this.view.hitTest(e).then((result) => {
                 console.log(result);
                 let objGraphic = result.results[0].graphic;
@@ -451,10 +451,10 @@ export default class Polymerization extends Component {
                 }
               });
             });
-            // this.view.on("resize", (e) => {
-            //   console.log("resize", e);
-            //   this.resize();
-            // });
+            this.view.on("resize", (e) => {
+              console.log("resize", e);
+              this.onResize();
+            });
 
             this.view.ui.components = [];
             this.setState({ mapReady: true });

@@ -16,6 +16,7 @@ export default class AlertInfo extends Component {
     };
     this.ready = false;
   }
+
   componentWillUnmount() {
     console.log("disposed");
     this.player && this.player.dispose();
@@ -50,7 +51,6 @@ export default class AlertInfo extends Component {
     if (this.sbbh === id) {
       return;
     }
-    this.sbbh = id;
 
     let getData = [
       {
@@ -76,6 +76,7 @@ export default class AlertInfo extends Component {
           this.player.src(url);
           console.log("!!!");
         }
+        this.sbbh = id;
         this.setState({
           Hls_url: url,
         });
@@ -85,32 +86,57 @@ export default class AlertInfo extends Component {
       });
   }
   render() {
-    const { loading, Hls_url } = this.state;
+    const { loading, Hls_url, hide } = this.state;
+    const width = 7680,
+      height = 2160;
+    let containerStyle = {
+      zIndex: 9,
+      position: "fixed",
+      top: 0,
+      left: 0,
+      width: width,
+      height: height,
+      overflow:"hidden",
+      color: "#fff",
+      // backgroundColor: "#000",
+    };
+    if (this.player) {
+      this.player.width = width;
+      this.player.height = height;
+    }
     return (
-      <div style={{ width: 275, height: 180 }}>
+      <div style={containerStyle} onDoubleClick={() => this.props.hider()}>
         <video
           ref={(n) => (this.playerNode = n)}
-          width="270px"
-          height="180px"
+          id={this.props.key + "camPopup"}
+          width={width}
+          height={height}
           className="video-js"
           preload="auto"
           controls={false}
           autoPlay
-          style={{ margin: "2px auto" }}
+          style={{
+            position:"absolute",
+            width: width,
+            height: height * 2,
+            top:-height/4
+          }}
         >
           <source
             src={this.state.Hls_url}
             type="application/x-mpegURL"
           ></source>
         </video>
-        <p
+        <div
           style={{
-            position: "relative",
-            bottom: 170,
+            position: "absolute",
+            fontSize: "5em",
+
+            bottom: 0,
           }}
         >
           {this.props.videoId}
-        </p>
+        </div>
         {loading ? <Loading></Loading> : ""}
       </div>
     );

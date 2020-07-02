@@ -13,6 +13,7 @@ export default class AlertInfo extends Component {
     this.state = {
       Hls_url: "",
       loading: true,
+      fullScreen: false,
     };
     this.ready = false;
   }
@@ -23,11 +24,23 @@ export default class AlertInfo extends Component {
   componentDidMount() {
     console.log("mounted");
     let player;
-    player = videojs(this.playerNode, {}, () => {
-      console.log("video", "ready", this);
-      this.setState({ loading: false });
-      this.ready = true;
-    });
+    player = videojs(
+      this.playerNode,
+      {
+        language: "zh-CN",
+
+        preload: "auto",
+        // controls: false,
+        controlBar: {
+          children: [{ name: "playToggle" }],
+        },
+      },
+      () => {
+        console.log("video", "ready", this);
+        this.setState({ loading: false });
+        this.ready = true;
+      }
+    );
     player.on("error", () => {
       console.log("video error");
       if (!this.state.Hls_url) {
@@ -50,7 +63,6 @@ export default class AlertInfo extends Component {
     if (this.sbbh === id) {
       return;
     }
-    this.sbbh = id;
 
     let getData = [
       {
@@ -74,8 +86,9 @@ export default class AlertInfo extends Component {
 
         if (this.player && url) {
           this.player.src(url);
-          console.log("!!!");
+          console.log("result url", url);
         }
+        this.sbbh = id;
         this.setState({
           Hls_url: "url",
         });
@@ -85,36 +98,48 @@ export default class AlertInfo extends Component {
       });
   }
   render() {
-    const { loading, Hls_url } = this.state;
-    const width=50,height=24
+    const { loading, Hls_url, fullScreen } = this.state;
+    let width = 705,
+      height = 365,
+      containerStyle = {
+        position: "relative",
+        width: width,
+        height: height,
+        padding: "5px 0",
+      };
+    if (this.player) {
+      this.player.width = width;
+      this.player.height = height;
+    }
     return (
-      <div style={{ width: width * 15, height: height * 15.5 }}>
-        <video
-          ref={(n) => (this.playerNode = n)}
-          id={this.props.key + "camlab"}
-          width={width * 15}
-          height={height * 15}
-          className="video-js"
-          preload="auto"
-          controls={false}
-          autoPlay
-          style={{ margin: "2px auto" }}
+      <div style={containerStyle} onDoubleClick={() => this.props.fullScreen()}>
+        <div
+        // style={{ width: containerStyle.width, height: containerStyle.height }}
         >
-          <source
-            src={this.state.Hls_url}
-            type="application/x-mpegURL"
-          ></source>
-        </video>
-        <p
+          <video
+            ref={(n) => (this.playerNode = n)}
+            id={this.props.key + "camlab"}
+            width={width}
+            height={height}
+            className="video-js"
+            style={{ padding: "5px 0" }}
+            autoPlay
+          >
+            <source src={Hls_url} type="application/x-mpegURL"></source>
+          </video>
+        </div>
+        <div
           style={{
-            position: "relative",
+            position: "absolute",
             fontSize: "2em",
-            bottom: "12em",
+
+            bottom: 10,
+            left: width / 15,
           }}
         >
           {this.props.videoId}
-        </p>
-        {loading ? <Loading></Loading> : ""}
+        </div>
+        {loading ? <Loading containerSize={containerStyle}></Loading> : ""}
       </div>
     );
   }

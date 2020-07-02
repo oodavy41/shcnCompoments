@@ -3,8 +3,9 @@ import React, { useEffect } from "react";
 import "./loading.css";
 
 export default function Loading(props) {
+  const { width, height } = props.containerSize;
   return (
-    <div className="cn_camLab_loadingMain">
+    <div className="cn_camLab_loadingMain" style={{ }}>
       <div className="sk-folding-cube">
         <div className="sk-cube1 sk-cube"></div>
         <div className="sk-cube2 sk-cube"></div>

@@ -1,9 +1,9 @@
 {
-  "name": "cn_popup",
+  "name": "cn_fullVideo",
   "version": "1.0.0",
   "description": "",
   "data": {
-    "widgetName": "cn_popup",
+    "widgetName": "cn_fullVideo",
     "version": "0.1"
   },
   "scripts": {

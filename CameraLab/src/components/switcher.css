@@ -5,11 +5,11 @@
 
   width: 5em;
 
-  height: 2em;
+  height: 2.2em;
 
   background: #ccc;
 
-  border-radius: 5em;
+  border-radius: 2.5em;
 
   cursor: pointer;
 
@@ -37,7 +37,7 @@
 
   left: 1px;
 
-  top: 1px;
+  top: 1.5px;
 
   -webkit-transform: translateZ(0);
 

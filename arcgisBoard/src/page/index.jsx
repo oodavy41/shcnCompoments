@@ -16,7 +16,7 @@ const keyWords = [
     marks: redPin,
   },
   {
-    filter: (v) => v.type.indexOf("消防") >= 0 && v.name.indexOf("地上式") >= 0,
+    filter: (v) => v.type.indexOf("消防栓") >= 0,
     pinType: "xiaofangshuan",
     marks: redPin,
   },
