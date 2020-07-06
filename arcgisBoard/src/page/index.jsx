@@ -118,7 +118,7 @@ export default class ArcGISMap extends Component {
     if (!data) {
       return;
     }
-    let pointsData = data.slice(1).map((v) => ({ ...v, x: +v.X, y: +v.Y }));
+    let pointsData = data.map((v) => ({ ...v, x: +v.X, y: +v.Y }));
     let keyWordsFilted = [];
     keyWords.forEach((e, i) => this.state.flag[i] && keyWordsFilted.push(e));
     let typedData = keyWordsFilted.map((dataProp) => ({

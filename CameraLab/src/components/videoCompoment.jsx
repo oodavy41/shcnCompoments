@@ -34,9 +34,16 @@ export default class AlertInfo extends Component {
         controlBar: {
           children: [{ name: "playToggle" }],
         },
+        autoPlay: true,
+        muted: true,
       },
       () => {
         console.log("video", "ready", this);
+        new Promise((rec) => {
+          setTimeout(() => rec(), 500 + Math.random() * 1000);
+        }).then(() => {
+          setTimeout(() => this.player.play(), 0);
+        });
         this.setState({ loading: false });
         this.ready = true;
       }
@@ -83,16 +90,19 @@ export default class AlertInfo extends Component {
         const { url } = JSON.parse(response.data.result)[0];
         console.log(response, url);
         console.log(this.player, this.ready);
-
         if (this.player && url) {
           this.player.src(url);
           console.log("result url", url);
         }
         this.sbbh = id;
         this.setState({
-          Hls_url: "url",
+          Hls_url: url,
+        });
+        return new Promise((rec) => {
+          setTimeout(() => rec(url), 2000 + Math.random() * 1000);
         });
       })
+      .then((url) => {})
       .catch(function (error) {
         console.log(error);
       });
@@ -104,7 +114,7 @@ export default class AlertInfo extends Component {
       containerStyle = {
         position: "relative",
         width: width,
-        height: height,
+        height: height + 10,
         padding: "5px 0",
       };
     if (this.player) {
@@ -113,17 +123,16 @@ export default class AlertInfo extends Component {
     }
     return (
       <div style={containerStyle} onDoubleClick={() => this.props.fullScreen()}>
-        <div
-        // style={{ width: containerStyle.width, height: containerStyle.height }}
-        >
+        <div style={{ overflow: "hidden" }}>
           <video
             ref={(n) => (this.playerNode = n)}
-            id={this.props.key + "camlab"}
+            id={this.props.videoId + "camlab"}
             width={width}
             height={height}
             className="video-js"
-            style={{ padding: "5px 0" }}
+            style={{ padding: "5px 0", transform: "scale(1.2)" }}
             autoPlay
+            muted
           >
             <source src={Hls_url} type="application/x-mpegURL"></source>
           </video>
